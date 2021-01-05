@@ -13,22 +13,23 @@ class CrearTablaStores extends Migration
      */
     public function up()
     {
-        Schema::create('Stores', function (Blueprint $table) {
+        Schema::create('stores', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('restaurant_id');//FK
-            $table->foreign('restaurant_id')->references('id')->on('restaurant');
+            $table->unsignedBigInteger('restaurant_id');
+            $table->foreign('restaurant_id')->references('id')->on('restaurants');
             $table->string('name');
             $table->string('address');
-            $table->string('streetaddress');
+            $table->string('streetaddress')->nullable();
             $table->double('latitude');
             $table->double('longitude');
-            $table->string('zipcode');
+            $table->string('zipcode')->nullable();
             $table->string('city');
             $table->string('state');
-            $table->string('phonenumber');
-            $table->string('email');
-            $table->string('admincontact');
+            $table->string('phonenumber')->nullable();
+            $table->string('email')->nullable();
+            $table->string('admincontact')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -39,6 +40,6 @@ class CrearTablaStores extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Stores');
+        Schema::dropIfExists('stores');
     }
 }

@@ -13,14 +13,16 @@ class CrearTablaOffers extends Migration
      */
     public function up()
     {
-        Schema::create('Offers', function (Blueprint $table) {
+        Schema::create('offers', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('product_id');//FK
             $table->foreign('product_id')->references('id')->on('products');
             $table->string('title');
             $table->dateTime('startdatetime');
             $table->dateTime('enddatetime');
+            $table->boolean('status');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -31,6 +33,6 @@ class CrearTablaOffers extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Offers');
+        Schema::dropIfExists('offers');
     }
 }

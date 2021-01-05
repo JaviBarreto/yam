@@ -13,20 +13,22 @@ class CrearTablaProducts extends Migration
      */
     public function up()
     {
-        Schema::create('Products', function (Blueprint $table) {
+        Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('imagename');
-            $table->unsignedBigInteger('category_id');//FK
-            $table->foreign('category_id')->references('id')->on('category');
-            $table->unsignedBigInteger('store_id');//FK
+            $table->unsignedBigInteger('category_id');
+            $table->foreign('category_id')->references('id')->on('categories');
+            $table->unsignedBigInteger('store_id')->nullable();
             $table->foreign('store_id')->references('id')->on('stores');
             $table->double('price');
             $table->integer('calories');
             $table->string('remarks');
             $table->double('weight');
             $table->boolean('isonlycompliment');
+            $table->boolean('status');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -37,6 +39,6 @@ class CrearTablaProducts extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Products');
+        Schema::dropIfExists('products');
     }
 }

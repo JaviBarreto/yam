@@ -2,8 +2,15 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Database\QueryException;
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Session\TokenMismatchException;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+
 
 class Handler extends ExceptionHandler
 {
@@ -50,6 +57,39 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
+        
+        if ($exception instanceof ValidationException) {
+            return $this->convertValidationExceptionToResponse($exception, $request);
+        }
+
+        if ($exception instanceof ModelNotFoundException) {
+            return response()->json(["Res" => false, "Message" => "MODEL ERROR 400 NOT FOUND", "Status" => 400]);
+        }
+
+        if ($exception instanceof QueryException) {
+            return response()->json(["Res" => false, "Message" => "QUERY ERROR 500 NOT FOUND", $exception->getMessage(),"Status" => 500]);
+        }
+
+        if ($exception instanceof HttpException) {
+            return response()->json(["Res" => false, "Message" => "404 ERROR, PAGE NOT FOUND", "Status" => 404]);
+        }
+
+        if ($exception instanceof AuthenticationException) {
+            return response()->json(["Res" => false, "Message" => "NOT AUTHENTICATED.", "Status" => 401]); 
+        }
+
+        if ($exception instanceof TokenMismatchException) {
+            return redirect()->back()->withInput($request->input());
+        }
+
         return parent::render($request, $exception);
     }
+
+     protected function convertValidationExceptionToResponse(ValidationException $e, $request)
+    {
+        $errors = $e->validator->errors()->getMessages();
+
+        return response()->json(["Res" => false, 'Error' => $errors, 'Status' => 422]);
+    }
+
 }

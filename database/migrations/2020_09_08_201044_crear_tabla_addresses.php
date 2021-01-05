@@ -13,10 +13,10 @@ class CrearTablaAddresses extends Migration
      */
     public function up()
     {
-        Schema::create('Addresses', function (Blueprint $table) {
+        Schema::create('addresses', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');//FK
-            $table->foreign('user_id')->references('id')->on('applicationuser');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->double('latitude');
             $table->double('longitude');
             $table->string('name');
@@ -26,10 +26,11 @@ class CrearTablaAddresses extends Migration
             $table->string('zipcode');
             $table->string('city');
             $table->string('state');
-            $table->boolean('isdefault');
-            $table->enum('buildingtype',['']);
+            $table->boolean('isdefault')->nullable();
+            $table->enum('buildingtype',['Departamento','Casa','Oficina']);
             $table->text('district');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -40,6 +41,6 @@ class CrearTablaAddresses extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Addresses');
+        Schema::dropIfExists('addresses');
     }
 }

@@ -13,10 +13,11 @@ class CrearTablaComplements extends Migration
      */
     public function up()
     {
-        Schema::create('Complements', function (Blueprint $table) {
+        Schema::create('complements', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -27,6 +28,6 @@ class CrearTablaComplements extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Complements');
+        Schema::dropIfExists('complements');
     }
 }
