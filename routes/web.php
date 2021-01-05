@@ -27,6 +27,7 @@ Route::group(['middleware' => ['auth', 'admin'], 'namespace' => 'System'], funct
         'category' => 'CategoryController',
         'product' => 'ProductController',
         'user' => 'UserController',
+        //'user' => 'UserController',
     ]);
 
 });
