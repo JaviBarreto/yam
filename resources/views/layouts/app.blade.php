@@ -50,6 +50,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('user.index')}}">Users</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('user.index')}}">Nuevo</a>
+                            </li>
                         </ul>
                         @endguest
                         <!-- Right Side Of Navbar -->
